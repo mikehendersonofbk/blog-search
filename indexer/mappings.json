@@ -1,0 +1,124 @@
+{
+  "settings": {
+    "analysis": {
+      "normalizer": {
+        "exact_match_insensitive": {
+          "type": "custom",
+          "char_filter": [],
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      },
+      "tokenizer": {
+        "ngram_whitespace_split": {
+          "type": "ngram",
+          "token_chars": [
+            "letter",
+            "digit",
+            "symbol",
+            "punctuation"
+          ]
+        }
+      },
+      "analyzer": {
+        "ngram_analyzer": {
+          "type": "custom",
+          "tokenizer": "ngram_whitespace_split",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "blog_id": {
+        "type": "keyword",
+        "store": true
+      },
+      "follower_count": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "text",
+        "fields": {
+          "raw": {
+            "store": true,
+            "type": "keyword",
+            "normalizer": "exact_match_insensitive"
+          },
+          "text": {
+            "type": "text"
+          },
+          "ngram": {
+            "type": "text",
+            "analyzer": "ngram_analyzer"
+          }
+        }
+      },
+      "title": {
+        "type": "text",
+        "fields": {
+          "raw": {
+            "store": true,
+            "type": "keyword",
+            "normalizer": "exact_match_insensitive"
+          },
+          "text": {
+            "type": "text"
+          },
+          "ngram": {
+            "type": "text",
+            "analyzer": "ngram_analyzer"
+          }
+        }
+      },
+      "created_timestamp": {
+        "type": "date",
+        "format": "epoch_second"
+      },
+      "tags": {
+        "type": "nested",
+        "properties": {
+          "tag_name": {
+            "type": "text",
+            "fields": {
+              "raw": {
+                "type": "keyword",
+                "normalizer": "exact_match_insensitive"
+              },
+              "text": {
+                "type": "text"
+              },
+              "ngram": {
+                "type": "text",
+                "analyzer": "ngram_analyzer"
+              }
+            }
+          },
+          "tf_idf": {
+            "type": "float"
+          },
+          "like_count": {
+            "type": "long"
+          },
+          "reblog_count": {
+            "type": "long"
+          },
+          "tag_count": {
+            "type": "long"
+          },
+          "global_rank_score": {
+            "type": "long"
+          },
+          "tag_score": {
+            "type": "long"
+          }
+        }
+      }
+    }
+  }
+}
