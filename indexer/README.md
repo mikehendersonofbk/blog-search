@@ -11,3 +11,5 @@ Once following the instructions to start the Docker network (found in the parent
 - `python index.py --alias_name blogs --chunk_size 10000`
 
 The script will first create an index named `<alias_name>_<unix_timestamp>`, then load the data in from the `blog-info` file. Once finished, this script will refresh the index, and then apply an alias named `<alias_name>` (the default is `blogs`).
+
+Any records from the `blog-info` raw data file that cannot be validated will be placed in a file called `data-errors`. My strategy, for now, is to omit records from the index if there are any issues fetching data from the expected positions in the tab-delimited array of fields, or if the fetched fields are not able to be cast into the expected types. I may revisit this later in the project to try and 'infer' fields based on context, etc., if the need arises.
